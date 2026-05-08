@@ -1,0 +1,90 @@
+{
+    "problem_data" : {
+        "problem_name"  : "dp_uniaxial_test",
+        "parallel_type" : "OpenMP",
+        "start_time"    : 0.0,
+        "end_time"      : 10.0,
+        "echo_level"    : 0
+    },
+    "solver_settings" : {
+        "solver_type"       : "Static",
+        "domain_size"       : 3,
+        "model_part_name"   : "Structure",
+        "analysis_type"     : "non_linear",
+        "model_import_settings" : {
+            "input_type"     : "mdpa",
+            "input_filename" : "mesh"
+        },
+        "material_import_settings" : {
+            "materials_filename" : "material.json"
+        },
+        "time_stepping" : { "time_step" : 1.0 },
+        "convergence_criterion"           : "residual_criterion",
+        "displacement_relative_tolerance" : 1e-8,
+        "residual_relative_tolerance"     : 1e-8,
+        "max_iteration"                   : 20,
+        "linear_solver_settings"          : { "solver_type" : "amgcl" }
+    },
+    "processes" : {
+        "constraints_process_list" : [
+            {
+                "python_module" : "assign_vector_variable_process",
+                "kratos_module" : "KratosMultiphysics",
+                "Parameters" : {
+                    "model_part_name" : "Structure.DISPLACEMENT_FixedFace",
+                    "variable_name"   : "DISPLACEMENT",
+                    "constrained"     : [true, true, true],
+                    "value"           : [0.0, 0.0, 0.0],
+                    "interval"        : [0.0, "End"]
+                }
+            },
+            {
+                "python_module" : "assign_vector_variable_process",
+                "kratos_module" : "KratosMultiphysics",
+                "Parameters" : {
+                    "model_part_name" : "Structure.DISPLACEMENT_LoadedFace",
+                    "variable_name"   : "DISPLACEMENT",
+                    "constrained"     : [true, true, true],
+                    "value"           : ["0.00005*t", 0.0, 0.0],
+                    "interval"        : [0.0, "End"]
+                }
+            },
+            {
+                "python_module" : "assign_vector_variable_process",
+                "kratos_module" : "KratosMultiphysics",
+                "Parameters" : {
+                    "model_part_name" : "Structure.DISPLACEMENT_ConstrainY",
+                    "variable_name"   : "DISPLACEMENT",
+                    "constrained"     : [false, true, false],
+                    "value"           : [null, 0.0, null],
+                    "interval"        : [0.0, "End"]
+                }
+            },
+            {
+                "python_module" : "assign_vector_variable_process",
+                "kratos_module" : "KratosMultiphysics",
+                "Parameters" : {
+                    "model_part_name" : "Structure.DISPLACEMENT_ConstrainZ",
+                    "variable_name"   : "DISPLACEMENT",
+                    "constrained"     : [false, false, true],
+                    "value"           : [null, null, 0.0],
+                    "interval"        : [0.0, "End"]
+                }
+            }
+        ],
+        "loads_process_list"   : [],
+        "list_other_processes" : [],
+        "json_output_process"  : [
+            {
+                "python_module" : "json_output_process",
+                "kratos_module" : "KratosMultiphysics",
+                "Parameters" : {
+                    "gauss_points_output_variables" : ["PLASTIC_DISSIPATION", "CAUCHY_STRESS_VECTOR", "GREEN_LAGRANGE_STRAIN_VECTOR"],
+                    "output_file_name"              : "result.json",
+                    "model_part_name"               : "Structure.Parts_Parts_Auto1",
+                    "time_frequency"                : 1.0
+                }
+            }
+        ]
+    }
+}

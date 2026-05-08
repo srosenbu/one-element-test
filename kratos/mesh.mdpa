@@ -1,0 +1,64 @@
+Begin ModelPartData
+End ModelPartData
+
+Begin Properties 0
+End Properties
+
+Begin Nodes
+    1   0.0   0.03   0.03
+    2   0.0   0.0    0.03
+    3   0.0   0.03   0.0
+    4   0.03  0.03   0.03
+    5   0.03  0.0    0.03
+    6   0.03  0.03   0.0
+    7   0.0   0.0    0.0
+    8   0.03  0.0    0.0
+End Nodes
+
+Begin Elements TotalLagrangianElement3D8N
+    1  0  4 1 3 6 5 2 7 8
+End Elements
+
+Begin SubModelPart Parts_Parts_Auto1
+    Begin SubModelPartNodes
+        1 2 3 4 5 6 7 8
+    End SubModelPartNodes
+    Begin SubModelPartElements
+        1
+    End SubModelPartElements
+End SubModelPart
+
+// Fixed face (X=0): fix all DOFs
+Begin SubModelPart DISPLACEMENT_FixedFace
+    Begin SubModelPartNodes
+        7   // (0,0,0)
+    End SubModelPartNodes
+End SubModelPart
+
+// Loading face (X=0.03): prescribe Ux, lateral free
+Begin SubModelPart DISPLACEMENT_LoadedFace
+    Begin SubModelPartNodes
+        4 5 6 8
+    End SubModelPartNodes
+End SubModelPart
+
+// Uniaxial strain: constrain Uy=0 on Y=0 nodes
+Begin SubModelPart DISPLACEMENT_ConstrainY
+    Begin SubModelPartNodes
+        2
+    End SubModelPartNodes
+End SubModelPart
+
+// Constrain Uz=0 on Z=0 nodes
+Begin SubModelPart DISPLACEMENT_ConstrainZ
+    Begin SubModelPartNodes
+        3
+    End SubModelPartNodes
+End SubModelPart
+
+// Constrain Uy=0 AND Uz=0 on X=0, Y=0 node
+Begin SubModelPart DISPLACEMENT_ConstrainYZ
+    Begin SubModelPartNodes
+        1
+    End SubModelPartNodes
+End SubModelPart

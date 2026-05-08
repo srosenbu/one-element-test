@@ -12,3 +12,4 @@ dependencies:
   - jupyterlab
   - pip:
       - git+https://github.com/BAMresearch/fenics-constitutive.git
+      - KratosMultiphysics-all
