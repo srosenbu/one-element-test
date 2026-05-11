@@ -79,12 +79,35 @@
                 "python_module" : "json_output_process",
                 "kratos_module" : "KratosMultiphysics",
                 "Parameters" : {
-                    "gauss_points_output_variables" : ["PLASTIC_DISSIPATION", "CAUCHY_STRESS_VECTOR", "GREEN_LAGRANGE_STRAIN_VECTOR"],
+                    "gauss_points_output_variables" : ["PLASTIC_STRAIN_VECTOR","PLASTIC_DISSIPATION", "CAUCHY_STRESS_VECTOR", "EQUIVALENT_PLASTIC_STRAIN"],
                     "output_file_name"              : "result.json",
                     "model_part_name"               : "Structure.Parts_Parts_Auto1",
                     "time_frequency"                : 1.0
                 }
             }
-        ]
+        ],
+        "vtk_output" : [{
+            "python_module" : "vtk_output_process",
+            "kratos_module" : "KratosMultiphysics",
+            "process_name"  : "VtkOutputProcess",
+            "Parameters"    : {
+                "model_part_name"                        : "Structure",
+                "file_format"                            : "binary",
+                "output_precision"                       : 7,
+                "output_control_type"                    : "step",
+                "output_interval"                        : 1,
+                "output_path"                            : "vtk_output",
+                "save_output_files_in_folder"            : true,
+                "write_deformed_configuration"           : true,
+                "nodal_solution_step_data_variables"     : ["DISPLACEMENT"],
+                "gauss_point_variables_in_elements"      : [
+                    "EQUIVALENT_PLASTIC_STRAIN",
+                    "PLASTIC_STRAIN_VECTOR"
+                ],
+                "gauss_point_variables_extrapolated_to_nodes" : [
+                    "EQUIVALENT_PLASTIC_STRAIN"
+                ]
+            }
+        }]
     }
 }
