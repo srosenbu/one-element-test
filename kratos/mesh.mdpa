@@ -31,34 +31,13 @@ End SubModelPart
 // Fixed face (X=0): fix all DOFs
 Begin SubModelPart DISPLACEMENT_FixedFace
     Begin SubModelPartNodes
-        7   // (0,0,0)
+        1 2 3 7   
     End SubModelPartNodes
 End SubModelPart
 
-// Loading face (X=0.03): prescribe Ux, lateral free
+// Loading face (X=0.03): prescribe Ux, fix Uy, Uz
 Begin SubModelPart DISPLACEMENT_LoadedFace
     Begin SubModelPartNodes
         4 5 6 8
-    End SubModelPartNodes
-End SubModelPart
-
-// Uniaxial strain: constrain Uy=0 on Y=0 nodes
-Begin SubModelPart DISPLACEMENT_ConstrainY
-    Begin SubModelPartNodes
-        2
-    End SubModelPartNodes
-End SubModelPart
-
-// Constrain Uz=0 on Z=0 nodes
-Begin SubModelPart DISPLACEMENT_ConstrainZ
-    Begin SubModelPartNodes
-        3
-    End SubModelPartNodes
-End SubModelPart
-
-// Constrain Uy=0 AND Uz=0 on X=0, Y=0 node
-Begin SubModelPart DISPLACEMENT_ConstrainYZ
-    Begin SubModelPartNodes
-        1
     End SubModelPartNodes
 End SubModelPart
