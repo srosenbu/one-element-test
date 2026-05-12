@@ -3,7 +3,7 @@
         "problem_name": "dp_uniaxial_test",
         "parallel_type": "OpenMP",
         "start_time": 0.0,
-        "end_time": 10.0,
+        "end_time": 60.0,
         "echo_level": 0
     },
     "solver_settings": {
@@ -65,7 +65,7 @@
                         true
                     ],
                     "value": [
-                        "0.00005*t",
+                        "0.0005*t",
                         0.0,
                         0.0
                     ],
